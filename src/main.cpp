@@ -11,7 +11,7 @@ int main()
     window.setFramerateLimit(60);
 
     vector<VerletObject> objects;
-    objects.emplace_back(sf::Vector2f(640.0f, 360.0f), 20.0f, sf::Color::White);
+    objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::White);
 
     Engine engine;
 

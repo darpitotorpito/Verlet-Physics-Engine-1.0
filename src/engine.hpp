@@ -13,6 +13,7 @@ struct VerletObject
     sf::Vector2f acceleration_;     // The acceleration of the object
     sf::CircleShape object_;        // The shape of the object
     sf::Color color_;               // The color of the object
+    float radius_; // The radius of the object
 
     VerletObject();                                                             // Default constructor
     VerletObject(sf::Vector2f initial_position, float radius, sf::Color color); // Parameterized constructor
@@ -30,8 +31,8 @@ public:
     void update(float dt, vector<VerletObject> &objects); // Update the engine for the next frame
     void updatePositions(float dt, VerletObject &obj); // Update the position of each Verlet Object
     void applyGravity(VerletObject &obj); // Update the gravity of each Verlet Object
-    void applyConstraints(VerletObject &obj); // Constrain each Verlet Object
     void setGravity(sf::Vector2f set_gravity);
+    void applyConstraints(VerletObject &obj);
 
 private:
     sf::Vector2f gravity = {0.0f, 0.0f};

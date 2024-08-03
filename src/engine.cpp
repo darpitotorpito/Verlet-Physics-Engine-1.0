@@ -7,6 +7,7 @@ VerletObject::VerletObject() // Default Constructor
     previous_position_ = sf::Vector2f(0.0f, 0.0f);
     acceleration_ = sf::Vector2f(0.0f, 0.0f);
     object_.setRadius(10.0f);
+    radius_ = 10.0f;
     object_.setFillColor(sf::Color::White);
     object_.setOrigin(10.0f, 10.0f);
 }
@@ -16,6 +17,7 @@ VerletObject::VerletObject(sf::Vector2f initial_position, float radius, sf::Colo
     previous_position_ = initial_position;
     acceleration_ = sf::Vector2f(0.0f, 0.0f);
     object_.setRadius(radius);
+    radius_ = radius;
     object_.setFillColor(color);
     object_.setOrigin(radius, radius);
 }
@@ -48,6 +50,7 @@ void Engine::update(float dt, vector<VerletObject> &objects) // Update the engin
     for (VerletObject &obj: objects)
     {
         applyGravity(obj);
+        applyConstraints(obj);
         updatePositions(dt, obj);
     }
 }
@@ -63,7 +66,19 @@ void Engine::setGravity(sf::Vector2f set_gravity)
 {
     gravity = set_gravity;
 }
-// void Engine::applyConstraints(VerletObject obj) // Constrain each Verlet Object
-// {
+void Engine::applyConstraints(VerletObject &obj) // Constrain each Verlet Object
+{
+    const sf::Vector2f constraint_position = {640.0f, 360.0f};
+    const float constraint_radius = 300.0f;
 
-// }
+    const sf::Vector2f to_obj_distance = obj.current_position_ - constraint_position;
+    const float dx = constraint_position.x - obj.current_position_.x;
+    const float dy = constraint_position.y - obj.current_position_.y;
+    const float abs_distance = sqrt(dx * dx + dy * dy);
+
+    if (abs_distance > constraint_radius - obj.radius_)
+    {
+        const sf::Vector2f normalize = to_obj_distance / abs_distance;
+        obj.current_position_ = constraint_position + normalize * (constraint_radius - obj.radius_);
+    }
+}
