@@ -1,0 +1,9 @@
+{
+    "cSpell.words": [
+        "SFML"
+    ],
+    "C_Cpp.default.compilerPath": "/usr/bin/clang++",
+    "files.associations": {
+        "vector": "cpp"
+    }
+}
