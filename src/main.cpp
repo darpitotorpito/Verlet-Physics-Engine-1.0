@@ -1,6 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include "engine.hpp"
+#include "render.hpp"
 
 using namespace std;
 
@@ -14,6 +12,7 @@ int main()
     objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::White);
 
     Engine engine;
+    Render render;
 
     sf::Clock clock;
     float total_time = 0;
@@ -48,6 +47,7 @@ int main()
         }
         // Render objects
         window.clear();
+        render.renderConstraint(window);
         for (VerletObject &obj : objects)
         {
             obj.drawObject(window);

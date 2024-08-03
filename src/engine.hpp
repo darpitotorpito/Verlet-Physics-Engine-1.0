@@ -32,7 +32,8 @@ public:
     void updatePositions(float dt, VerletObject &obj); // Update the position of each Verlet Object
     void applyGravity(VerletObject &obj); // Update the gravity of each Verlet Object
     void setGravity(sf::Vector2f set_gravity);
-    void applyConstraints(VerletObject &obj);
+    void applyInelasticConstraints(VerletObject &obj);
+    void applyElasticConstraints(VerletObject &obj);
 
 private:
     sf::Vector2f gravity = {0.0f, 0.0f};
