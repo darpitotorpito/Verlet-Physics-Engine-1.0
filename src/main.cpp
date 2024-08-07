@@ -2,6 +2,8 @@
 
 using namespace std;
 
+const float update_rate = 0.0001f;
+
 int main()
 {
     // Create render window and set attributes
@@ -11,13 +13,14 @@ int main()
     vector<VerletObject> objects;
     objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::White);
 
-    bool blue_circle = false;
-
     Engine engine;
     Render render;
 
     sf::Clock clock;
+    float accumulator = 0.0f;
     float total_time = 0;
+    bool blue_circle = false;
+
     // Enable window interactions
     while (window.isOpen())
     {
@@ -35,19 +38,25 @@ int main()
             }
         }
 
-        // float dt = clock.restart().asSeconds();
-        float dt = 0.001;
+        float dt = clock.restart().asSeconds();
         if (!freeze_frame)
         {
-            engine.setGravity(sf::Vector2f{0.0f, 98000.0f});
-            engine.update(dt, objects);
             total_time += dt;
+            accumulator += dt;
 
-            if (total_time >= 0.5f && !blue_circle)
+            if (total_time >= 5.0f && !blue_circle)
             {
                 blue_circle = true;
                 objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::Blue);
             }
+
+            if (accumulator >= update_rate)
+            {
+                engine.setGravity(sf::Vector2f{0.0f, 98.0f});
+                engine.update(dt, objects);
+                accumulator -= update_rate;
+            }
+
             // for (VerletObject &obj : objects)
             // {
             //     cout << objects.size() << " OBJECTS // ";
@@ -61,7 +70,7 @@ int main()
                 const float dx = objects.at(0).current_position_.x - objects.at(1).current_position_.x;
                 const float dy = objects.at(0).current_position_.y - objects.at(1).current_position_.y;
                 const float abs_distance = sqrt(dx * dx + dy * dy);
-                cout << "CURRENT ABSOLUTE DISTANCE: " << abs_distance << "\n";
+                cout << "CURRENT TIME: " << total_time << " // CURRENT ABSOLUTE DISTANCE: " << abs_distance << "\n";
             }
         }
 

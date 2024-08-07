@@ -130,7 +130,7 @@ void Engine::applyCollisions(float dt, vector<VerletObject> &objects)
                 const float dy = obj1.current_position_.y - obj2.current_position_.y;
                 const float abs_distance = sqrt(dx * dx + dy * dy);
 
-                if (abs_distance < obj1.radius_)
+                if (abs_distance < obj1.radius_ + obj2.radius_)
                 {
                     cout << "ABS DISTANCE: " << abs_distance << " // OBJ RADIUS: " << obj1.radius_ << " // COLLISSION DETECTED PROGRAM WILL TERMINATE \n";
                     freeze_frame = true;
