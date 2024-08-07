@@ -2,9 +2,20 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <cstdlib>
 #include <SFML/Graphics.hpp>
 
+extern bool freeze_frame;
+
 using namespace std;
+
+struct Vector2d
+{
+    double x;
+    double y;
+
+    Vector2d();
+};
 
 struct VerletObject
 {
@@ -34,6 +45,7 @@ public:
     void setGravity(sf::Vector2f set_gravity);
     void applyInelasticConstraints(VerletObject &obj);
     void applyElasticConstraints(VerletObject &obj);
+    void applyCollisions(float dt, vector<VerletObject> &objects);
 
 private:
     sf::Vector2f gravity = {0.0f, 0.0f};

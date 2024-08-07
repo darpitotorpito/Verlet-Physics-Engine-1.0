@@ -1,5 +1,15 @@
 #include "engine.hpp"
 
+
+bool freeze_frame = false;
+
+// ===== VECTOR - 2D DOUBLE ===== //
+Vector2d::Vector2d()
+{
+    x = 0.0;
+    y = 0.0;
+}
+
 // ===== VERLET OBJECT ===== //
 VerletObject::VerletObject() // Default Constructor
 {
@@ -37,7 +47,7 @@ void VerletObject::updatePosition(float dt)
     previous_position_ = current_position_;
     current_position_ = previous_position_ + velocity + acceleration_ * dt * dt;
     acceleration_ = {};
-    cout << "CURRENT VELOCITY - " << sqrt(velocity.x * velocity.x + velocity.y * velocity.y) << endl;
+    // cout << "CURRENT VELOCITY - " << sqrt(velocity.x * velocity.x + velocity.y * velocity.y) << endl;
 }
 void VerletObject::accelerate(sf::Vector2f acceleration)
 {
@@ -53,6 +63,7 @@ void Engine::update(float dt, vector<VerletObject> &objects) // Update the engin
         applyElasticConstraints(obj);
         updatePositions(dt, obj);
     }
+    applyCollisions(dt, objects);
 }
 void Engine::updatePositions(float dt, VerletObject &obj) // Update the position of each Verlet Object
 {
@@ -104,5 +115,27 @@ void Engine::applyElasticConstraints(VerletObject &obj)
         float dot_product = velocity.x * normalize.x + velocity.y * normalize.y;
         sf::Vector2f reflection = velocity - 2.0f * dot_product * normalize;
         obj.previous_position_ = obj.current_position_ - reflection;
+    }
+}
+void Engine::applyCollisions(float dt, vector<VerletObject> &objects)
+{
+    for (VerletObject &obj1 : objects)
+    {
+        for (VerletObject &obj2 : objects)
+        {
+            if (&obj1 != &obj2)
+            {
+                const sf::Vector2f distance = obj1.current_position_ - obj2.current_position_;
+                const float dx = obj1.current_position_.x - obj2.current_position_.x;
+                const float dy = obj1.current_position_.y - obj2.current_position_.y;
+                const float abs_distance = sqrt(dx * dx + dy * dy);
+
+                if (abs_distance < obj1.radius_)
+                {
+                    cout << "ABS DISTANCE: " << abs_distance << " // OBJ RADIUS: " << obj1.radius_ << " // COLLISSION DETECTED PROGRAM WILL TERMINATE \n";
+                    freeze_frame = true;
+                }
+            }
+        }
     }
 }
