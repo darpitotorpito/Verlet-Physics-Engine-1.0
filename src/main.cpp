@@ -11,7 +11,7 @@ int main()
     window.setFramerateLimit(60);
 
     vector<VerletObject> objects;
-    objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::White);
+    objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::White, 1.0f);
 
     Engine engine;
     Render render;
@@ -47,7 +47,7 @@ int main()
             if (total_time >= 5.0f && !blue_circle)
             {
                 blue_circle = true;
-                objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::Blue);
+                objects.emplace_back(sf::Vector2f(740.0f, 360.0f), 20.0f, sf::Color::Blue, 1.0f);
             }
 
             if (accumulator >= update_rate)

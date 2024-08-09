@@ -24,10 +24,11 @@ struct VerletObject
     sf::Vector2f acceleration_;     // The acceleration of the object
     sf::CircleShape object_;        // The shape of the object
     sf::Color color_;               // The color of the object
+    float mass_;
     float radius_; // The radius of the object
 
     VerletObject();                                                             // Default constructor
-    VerletObject(sf::Vector2f initial_position, float radius, sf::Color color); // Parameterized constructor
+    VerletObject(sf::Vector2f initial_position, float radius, sf::Color color, float mass); // Parameterized constructor
     void drawObject(sf::RenderWindow &window);                                  // Draw the object to be rendered onto the screen
     void setPosition(sf::Vector2f set_position);                                // Set the current position of the object
     void updatePosition(float dt);                                              // Update position of the object based on frame time

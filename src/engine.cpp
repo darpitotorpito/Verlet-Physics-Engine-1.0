@@ -21,7 +21,7 @@ VerletObject::VerletObject() // Default Constructor
     object_.setFillColor(sf::Color::White);
     object_.setOrigin(10.0f, 10.0f);
 }
-VerletObject::VerletObject(sf::Vector2f initial_position, float radius, sf::Color color) // Parameterized constructor
+VerletObject::VerletObject(sf::Vector2f initial_position, float radius, sf::Color color, float mass) // Parameterized constructor
 {
     current_position_ = initial_position;
     previous_position_ = initial_position;
@@ -30,6 +30,7 @@ VerletObject::VerletObject(sf::Vector2f initial_position, float radius, sf::Colo
     radius_ = radius;
     object_.setFillColor(color);
     object_.setOrigin(radius, radius);
+    mass_ = mass;
 }
 void VerletObject::drawObject(sf::RenderWindow &window) // Draw the object to be rendered onto the screen
 {
@@ -135,6 +136,25 @@ void Engine::applyCollisions(float dt, vector<VerletObject> &objects)
                     cout << "ABS DISTANCE: " << abs_distance << " // OBJ RADIUS: " << obj1.radius_ << " // COLLISSION DETECTED PROGRAM WILL TERMINATE \n";
                     freeze_frame = true;
                 }
+
+                if (freeze_frame == true)
+                {
+                    char input;
+                    cout << "Enter 'y' to continue \n";
+                    cin >> input;
+                    if (input == 'y')
+                    {
+                        freeze_frame = false;
+                    }            
+                }
+
+                const sf::Vector2f velocity_1 = obj1.current_position_ - obj2.previous_position_;
+                const sf::Vector2f velocity_2 = obj2.current_position_ - obj2.previous_position_;
+
+                const float velocity_x = velocity_1.x + velocity_2.x;
+                const float velocity_y = velocity_1.y + velocity_2.y;
+
+                
             }
         }
     }
